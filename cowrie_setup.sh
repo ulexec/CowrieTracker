@@ -42,6 +42,10 @@ else
 	chmod 770 /etc/authbind/byport/22
 	sed -i 's/22/8742/g' /etc/ssh/sshd_config
 
+	#enabling ssh and telnet port forwarding
+	iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT --to-port 2223          
+	iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222           
+	
 	#restarting ssh and web servers
 	systemctl restart ssh
 	systemctl restart apache2
